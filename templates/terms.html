@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - InsightFlow</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/images/new_logo.svg" type="image/svg+xml">
+    <style>
+        :root {
+            --primary-color: #6B21A8;
+            --secondary-color: #EC4899;
+            --primary-gradient: linear-gradient(45deg, #6B21A8, #EC4899);
+            --brand-gradient: linear-gradient(45deg, #6B21A8, #EC4899);
+            --accent-color: #d891c3;
+            --text-color: #ffffff;
+        }
+        
+        /* Sticky navbar styles */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 25px;
+            border: 2px solid #ba0bb1;
+        }
+        
+        /* Add a subtle animation when scrolling */
+        .navbar.scrolled {
+            padding: 12px 20px;
+            background-color: rgba(18, 18, 18, 0.98);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        /* Logo glow effect */
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 35px;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, rgba(107, 33, 168, 0.3) 0%, rgba(236, 72, 153, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .logo:hover::after {
+            opacity: 1;
+        }
+        
+        .logo-image {
+            width: 55px;
+            height: 55px;
+            margin-right: 12px;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(107, 33, 168, 0.5));
+        }
+        
+        .logo:hover .logo-image {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 12px rgba(236, 72, 153, 0.7));
+        }
+        
+        .logo-text {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 1.6rem;
+            background: linear-gradient(45deg, #6B21A8, #EC4899);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.5s ease;
+            text-shadow: 0 0 10px rgba(107, 33, 168, 0.2);
+        }
+        
+        .logo:hover .logo-text {
+            transform: scale(1.05);
+            background-position: right center;
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+        }
+        
+        /* Navigation link hover effects */
+        .nav-link {
+            position: relative;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #6B21A8, #EC4899);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #d891c3;
+            transform: translateY(-3px);
+            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-link:hover::before {
+            width: 100%;
+        }
+        
+        /* Add a subtle glow effect on hover */
+        .nav-link:hover {
+            box-shadow: 0 0 10px rgba(107, 33, 168, 0.3);
+            border-radius: 4px;
+        }
+
+        /* Terms Page Styles */
+        .terms-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .terms-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .terms-section h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--brand-gradient);
+            border-radius: 3px;
+        }
+
+        .terms-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .terms-card {
+            background-color: var(--card-bg-color);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .terms-card h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .terms-card h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .terms-card p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .terms-card ul {
+            list-style-type: none;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .terms-card ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+
+        .terms-card ul li::before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Add the missing theme toggle styles */
+        #theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(107, 33, 168, 0.7);
+            margin-left: 10px;
+        }
+        
+        body.light-theme #theme-toggle {
+            background-color: rgba(107, 33, 168, 0.8);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        #theme-toggle:hover {
+            background-color: var(--primary-color);
+            transform: rotate(30deg);
+        }
+
+        /* Light theme overrides for terms cards */
+        body.light-theme .terms-card p,
+        body.light-theme .terms-card ul li {
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a href="/" class="logo">
+                <img src="/static/images/new_logo.svg" alt="InsightFlow Logo" class="logo-image">
+                <span class="logo-text">InsightFlow</span>
+            </a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">HOME</a>
+                <a href="/#features" class="nav-link">FEATURES</a>
+                <a href="/#about" class="nav-link">ABOUT US</a>
+            </div>
+            <button id="theme-toggle" aria-label="Toggle dark/light mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </nav>
+
+        <section class="terms-section">
+            <h1>Terms of Service</h1>
+            <div class="terms-content">
+                <div class="terms-card">
+                    <h2>Introduction</h2>
+                    <p>Welcome to InsightFlow. These Terms of Service ("Terms") govern your use of our website and services. By accessing or using InsightFlow, you agree to be bound by these Terms.</p>
+                    <p>Please read these Terms carefully before using our services. If you do not agree with any part of these Terms, you may not use our services.</p>
+                    <p>Last updated: June 1, 2024</p>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Definitions</h2>
+                    <ul>
+                        <li><strong>"Service"</strong> refers to the InsightFlow website and data analysis platform.</li>
+                        <li><strong>"User"</strong> refers to individuals who access or use our Service.</li>
+                        <li><strong>"Content"</strong> refers to data, text, information, and files uploaded to or generated by the Service.</li>
+                        <li><strong>"Account"</strong> refers to a registered user profile on our Service.</li>
+                    </ul>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Account Registration and Security</h2>
+                    <p>When you create an account with us, you must provide accurate and complete information. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.</p>
+                    <p>You agree to:</p>
+                    <ul>
+                        <li>Create only one account per person</li>
+                        <li>Not share your account with anyone else</li>
+                        <li>Notify us immediately of any unauthorized use of your account</li>
+                        <li>Ensure that you log out of your account at the end of each session</li>
+                    </ul>
+                    <p>We reserve the right to disable any account if we believe you have violated these Terms.</p>
+                </div>
+
+                <div class="terms-card">
+                    <h2>User Content and License</h2>
+                    <p>Our Service allows you to upload, analyze, and store data. You retain all rights to your Content, but you grant us a license to use it for providing and improving our Service.</p>
+                    <p>By uploading Content to InsightFlow, you grant us a worldwide, non-exclusive, royalty-free license to use, store, display, and process your Content solely for the purpose of providing and improving our Service.</p>
+                    <p>You represent and warrant that:</p>
+                    <ul>
+                        <li>You own or have the necessary rights to the Content you upload</li>
+                        <li>Your Content does not violate the privacy rights, publicity rights, copyright, or other rights of any person</li>
+                        <li>Your Content does not contain any malicious code or files designed to interrupt or damage our Service</li>
+                    </ul>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Acceptable Use</h2>
+                    <p>You agree not to use our Service to:</p>
+                    <ul>
+                        <li>Violate any applicable laws or regulations</li>
+                        <li>Infringe upon the rights of others</li>
+                        <li>Upload or transmit any malicious code or files</li>
+                        <li>Attempt to gain unauthorized access to our systems or networks</li>
+                        <li>Interfere with or disrupt the integrity or performance of the Service</li>
+                        <li>Collect or harvest any information from other users without their consent</li>
+                        <li>Use the Service for any illegal or unauthorized purpose</li>
+                    </ul>
+                    <p>We reserve the right to terminate your access to the Service for violations of these acceptable use policies.</p>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Intellectual Property</h2>
+                    <p>The Service and its original content (excluding Content provided by users), features, and functionality are owned by InsightFlow and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.</p>
+                    <p>You may not:</p>
+                    <ul>
+                        <li>Copy, modify, distribute, or create derivative works based on our Service</li>
+                        <li>Reverse engineer, decompile, or attempt to extract the source code of our Service</li>
+                        <li>Remove any copyright or other proprietary notices from our Service</li>
+                        <li>Use our trademarks, logos, or other proprietary information without our express written consent</li>
+                    </ul>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Limitation of Liability</h2>
+                    <p>To the maximum extent permitted by law, InsightFlow shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, use, goodwill, or other intangible losses, resulting from:</p>
+                    <ul>
+                        <li>Your use or inability to use our Service</li>
+                        <li>Any unauthorized access to or use of our servers and/or any personal information stored therein</li>
+                        <li>Any interruption or cessation of transmission to or from our Service</li>
+                        <li>Any bugs, viruses, or other harmful code that may be transmitted through our Service</li>
+                        <li>Any errors or omissions in any content or for any loss or damage incurred as a result of the use of any content posted, emailed, transmitted, or otherwise made available via the Service</li>
+                    </ul>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Disclaimer</h2>
+                    <p>Our Service is provided on an "AS IS" and "AS AVAILABLE" basis. InsightFlow makes no warranties, expressed or implied, regarding the reliability, accuracy, or availability of the Service.</p>
+                    <p>We do not guarantee that:</p>
+                    <ul>
+                        <li>The Service will meet your specific requirements</li>
+                        <li>The Service will be uninterrupted, timely, secure, or error-free</li>
+                        <li>The results obtained from using the Service will be accurate or reliable</li>
+                        <li>Any errors in the Service will be corrected</li>
+                    </ul>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Changes to Terms</h2>
+                    <p>We reserve the right to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms on this page and updating the "Last updated" date.</p>
+                    <p>Your continued use of the Service after any such changes constitutes your acceptance of the new Terms. If you do not agree to the new terms, you must stop using the Service.</p>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Governing Law</h2>
+                    <p>These Terms shall be governed by and construed in accordance with the laws of India, without regard to its conflict of law provisions.</p>
+                    <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable, the remaining provisions will remain in effect.</p>
+                </div>
+
+                <div class="terms-card">
+                    <h2>Contact Us</h2>
+                    <p>If you have any questions about these Terms, please contact us:</p>
+                    <ul>
+                        <li>Email: official.insightflow@gmail.com</li>
+                        <li>Phone: +91 7488699510</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <a href="/" class="footer-logo">
+                        <img src="/static/images/new_logo.svg" alt="InsightFlow Logo" class="footer-logo-image">
+                        <span class="footer-logo-text">InsightFlow</span>
+                    </a>
+                    <p class="footer-description">Empowering you to <strong>unlock hidden patterns</strong> in complex data through stunning visualizations and intelligent analytics — making data-driven decisions <em>effortless</em>.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/#features">Features</a></li>
+                        <li><a href="/#about">About Us</a></li>
+                        <li><a href="/" onclick="localStorage.setItem('showUpload', 'true'); return true;">Upload Data</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <span>official.insightflow@gmail.com</span>
+                        </li>
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <span>+91 7488699510</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 InsightFlow. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <style>
+        /* Footer Styles */
+        .footer {
+            background-color: #121212;
+            padding: 50px 0 20px;
+            color: var(--text-color);
+            margin-top: 60px;
+            border-radius: 25px;
+            border: 2px solid #ba0bb1;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 30px;
+        }
+        
+        .footer-column {
+            flex-basis: 23%;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .footer-logo-image {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            filter: drop-shadow(0 0 5px rgba(107, 33, 168, 0.5));
+        }
+        
+        .footer-logo-text {
+            font-weight: bold;
+            font-size: 1.4rem;
+            background: var(--primary-gradient);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(107, 33, 168, 0.2);
+        }
+        
+        .footer-description {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-top: 15px;
+        }
+        
+        .footer-description strong {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .footer-description em {
+            font-style: italic;
+            color: var(--text-color);
+        }
+        
+        .footer-column h4 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            color: var(--text-color);
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 40px;
+            height: 2px;
+            background: var(--primary-gradient);
+        }
+        
+        .footer-links, .footer-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li, .footer-contact li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .footer-links a::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .footer-links a:hover::before {
+            transform: translateX(3px);
+        }
+        
+        .footer-contact li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-contact svg {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .footer-contact li span {
+            color: var(--text-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Responsive footer */
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+            }
+            
+            .footer-column {
+                flex-basis: 100%;
+                margin-bottom: 30px;
+            }
+        }
+        
+        /* Light theme footer overrides */
+        body.light-theme .footer {
+            background-color: #f0f0f0;
+        }
+        
+        body.light-theme .footer,
+        body.light-theme .footer-description,
+        body.light-theme .footer-description em,
+        body.light-theme .footer-column h4,
+        body.light-theme .footer-links a,
+        body.light-theme .footer-contact li span,
+        body.light-theme .copyright {
+            color: #333333;
+        }
+        body.light-theme .terms-card h2 {
+            color: #ba0bb1;
+        }
+        body.light-theme .terms-section h1 {
+            color: #ba0bb1;
+        }
+
+    </style>
+
+    <script src="/static/js/script.js"></script>
+    <script>
+        // Add scroll event listener for navbar effects
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html> 

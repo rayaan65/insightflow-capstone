@@ -1,0 +1,9 @@
+Flask==2.0.1
+Werkzeug==2.0.3
+pandas
+numpy
+matplotlib
+gunicorn
+openpyxl>=3.0.0
+xlrd>=2.0.0
+seaborn

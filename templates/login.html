@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - InsightFlow</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/images/new_logo.svg" type="image/svg+xml">
+    <style>
+        :root {
+            --primary-color: #6B21A8;
+            --secondary-color: #EC4899;
+            --primary-gradient: linear-gradient(45deg, #6B21A8, #EC4899);
+            --text-on-dark: #ffffff;
+            --text-on-light: #333333;
+            --hover-color: #d891c3;
+        }
+        
+        body {
+            background-color: #121212;
+            color: #f8f8f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        body.light-theme {
+            background-color: #f8f8f8;
+            color: #333333;
+        }
+        
+        .page-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+            padding-top: 60px;
+            max-width: 90%;
+            margin: 0 auto;
+        }
+        
+        .auth-container {
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            margin-top: 60px;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease-in-out;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        body.light-theme .auth-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-title {
+            margin-top: 0;
+            font-size: 2rem;
+            color: #f8f8f8;
+            text-align: center;
+        }
+        
+        body.light-theme .auth-title {
+            color: #333333;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        body.light-theme .form-group label {
+            color: #555;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background-color: rgba(0, 0, 0, 0.2);
+            color: #f8f8f8;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        body.light-theme .form-control {
+            border: 1px solid #ddd;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333333;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(107, 33, 168, 0.2);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 5px 15px rgba(107, 33, 168, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .auth-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .auth-links a:hover {
+            text-decoration: underline;
+            color: var(--hover-color);
+        }
+        
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+        
+        .flash-message {
+            padding: 10px 15px;
+            border-radius: 4px;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #f44336;
+            color: #f8f8f8;
+            margin-bottom: 10px;
+        }
+        
+        body.light-theme .flash-message {
+            background-color: rgba(255, 0, 0, 0.05);
+            color: #333;
+        }
+        
+        /* Sticky navbar styles exactly as in index.html */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 25px;
+            border: 2px solid #ba0bb1;
+        }
+        
+        /* Add a subtle animation when scrolling */
+        .navbar.scrolled {
+            padding: 12px 20px;
+            background-color: rgba(18, 18, 18, 0.98);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        body.light-theme .navbar {
+            background-color: rgba(248, 248, 248, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        /* Logo glow effect */
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 35px;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, rgba(107, 33, 168, 0.3) 0%, rgba(236, 72, 153, 0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .logo:hover::after {
+            opacity: 1;
+        }
+        
+        .logo-image {
+            width: 55px;
+            height: 55px;
+            margin-right: 12px;
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(107, 33, 168, 0.5));
+        }
+        
+        .logo:hover .logo-image {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 12px rgba(236, 72, 153, 0.7));
+        }
+        
+        .logo-text {
+            display: inline-block;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 1.6rem;
+            background: var(--primary-gradient);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.5s ease;
+            text-shadow: 0 0 10px rgba(107, 33, 168, 0.2);
+        }
+        
+        .logo:hover .logo-text {
+            transform: scale(1.05);
+            background-position: right center;
+            text-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+        }
+        
+        /* Navigation link hover effects */
+        .nav-link {
+            position: relative;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--hover-color);
+            transform: translateY(-3px);
+            text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-link:hover::before {
+            width: 100%;
+        }
+        
+        /* Add a subtle glow effect on hover */
+        .nav-link:hover {
+            box-shadow: 0 0 10px rgba(107, 33, 168, 0.3);
+            border-radius: 4px;
+        }
+        
+        body.light-theme .nav-link {
+            color: #333333;
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        #theme-toggle {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(107, 33, 168, 0.7);
+            margin-left: 10px;
+        }
+        
+        body.light-theme #theme-toggle {
+            background-color: rgba(107, 33, 168, 0.8);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        #theme-toggle:hover {
+            background-color: var(--primary-color);
+            transform: rotate(30deg);
+        }
+
+        /* Password visibility toggle styles */
+        .password-field-wrapper {
+            position: relative;
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-theme .password-toggle-btn {
+            color: #777;
+        }
+
+        .password-toggle-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .password-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Exact navbar from index.html -->
+    <nav class="navbar">
+        <a href="/" class="logo">
+            <img src="/static/images/new_logo.svg" alt="InsightFlow Logo" class="logo-image">
+            <span class="logo-text">InsightFlow</span>
+        </a>
+        <div class="nav-links">
+            <a href="/" class="nav-link">HOME</a>
+            <a href="/#features" class="nav-link">FEATURES</a>
+            <a href="/#about" class="nav-link">ABOUT US</a>
+        </div>
+        <div class="nav-right">
+            <button id="theme-toggle" aria-label="Toggle dark/light mode">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1 class="auth-title">Login</h1>
+            </div>
+            
+            {% if get_flashed_messages() %}
+            <div class="flash-messages">
+                {% for message in get_flashed_messages() %}
+                <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form class="auth-form" method="post" action="/login">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-field-wrapper">
+                        <input type="password" id="password" name="password" class="form-control" required>
+                        <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-icon">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="eye-off-icon" style="display: none;">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            
+            <div class="auth-links">
+                <p>Don't have an account? <a href="/register">Register</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme handling
+        function toggleTheme() {
+            const isLightTheme = document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+            updateThemeIcon(isLightTheme);
+        }
+
+        function updateThemeIcon(isLightTheme) {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                // Sun icon for dark mode (to switch to light), moon icon for light mode (to switch to dark)
+                themeToggle.innerHTML = isLightTheme ? 
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>` : 
+                    `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>`;
+            }
+        }
+
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.classList.toggle('light-theme', savedTheme === 'light');
+                updateThemeIcon(savedTheme === 'light');
+            } else {
+                const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.toggle('light-theme', !prefersDarkMode);
+                updateThemeIcon(!prefersDarkMode);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            
+            // Add theme toggle event listener
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+            
+            // Add scroll event listener to handle navbar animation
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Password toggle functionality
+            const passwordToggleBtn = document.querySelector('.password-toggle-btn');
+            if (passwordToggleBtn) {
+                passwordToggleBtn.addEventListener('click', function() {
+                    const passwordInput = document.getElementById('password');
+                    const eyeIcon = this.querySelector('.eye-icon');
+                    const eyeOffIcon = this.querySelector('.eye-off-icon');
+                    
+                    // Toggle password visibility
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        eyeIcon.style.display = 'none';
+                        eyeOffIcon.style.display = 'block';
+                    } else {
+                        passwordInput.type = 'password';
+                        eyeIcon.style.display = 'block';
+                        eyeOffIcon.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
